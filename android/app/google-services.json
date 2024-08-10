@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "827793426754",
+    "project_id": "moviehub-project",
+    "storage_bucket": "moviehub-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827793426754:android:926112fa21cc87ab2420db",
+        "android_client_info": {
+          "package_name": "com.example.moviehub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827793426754-kjle36fnu6eimug9v9a62fgeu6i7aru6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.moviehub",
+            "certificate_hash": "705ee0bfa7a1dc364144fce5544526502c0c2478"
+          }
+        },
+        {
+          "client_id": "827793426754-vodghj8g5u1ukjp6sugkre8inot516sr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.moviehub",
+            "certificate_hash": "53623852e1fd6175d435a297961b23ae94f7e4cd"
+          }
+        },
+        {
+          "client_id": "827793426754-qrkgke9u6ddo254op6cnq727015e9fof.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYZdiTC2GqowBOgTM251Ua24PMdzE22ZM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827793426754-qrkgke9u6ddo254op6cnq727015e9fof.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "827793426754-jngv0a11tnt0cdv96d13esvto9e9pke4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.moviehub"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
