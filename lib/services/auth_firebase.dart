@@ -3,17 +3,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:logger/web.dart';
+import 'package:logger/logger.dart';
 
 class AuthMethod {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
-  Logger logger = Logger();
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
+  final Logger logger = Logger();
 
-  // SignUp User
-  Future<String> signUpUser(
-      {required String email, required String password}) async {
+  Future<String> signUpUser({
+    required String email,
+    required String password,
+  }) async {
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
@@ -38,7 +39,6 @@ class AuthMethod {
     String res = "Some error occurred";
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
-        // Logging in user with email and password
         await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
@@ -48,7 +48,6 @@ class AuthMethod {
         res = "Please enter all the fields";
       }
     } on FirebaseAuthException catch (e) {
-      // Handling specific Firebase Auth errors
       switch (e.code) {
         case 'user-not-found':
           res = "No user found for that email.";
@@ -62,16 +61,14 @@ class AuthMethod {
         default:
           res = "An error occurred: ${e.message}";
       }
-      logger.e(
-          "FirebaseAuthException: ${e.message}"); // Log specific Firebase error
+      logger.e("FirebaseAuthException: ${e.message}");
     } catch (e) {
-      logger.e("Error during login: ${e.toString()}"); // Log general errors
+      logger.e("Error during login: ${e.toString()}");
       res = e.toString();
     }
     return res;
   }
 
-  // for signOut
   Future<void> signOut() async {
     await _auth.signOut();
     await _secureStorage.delete(key: 'user');
@@ -79,30 +76,38 @@ class AuthMethod {
 
   Future<User?> loginWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+      if (googleUser == null) return null;
+
       final GoogleSignInAuthentication googleAuth =
-          await googleUser!.authentication;
+          await googleUser.authentication;
+
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
+
       final UserCredential userCredential =
           await _auth.signInWithCredential(credential);
       final User? user = userCredential.user;
 
+      if (user == null) return null;
+
       Map<String, dynamic> userJson = {
-        'uid': user?.uid,
-        'displayName': user?.displayName,
-        'email': user?.email,
-        'photoURL': user?.photoURL,
-        'phoneNumber': user?.phoneNumber,
-        'isAnonymous': user?.isAnonymous,
-        'emailVerified': user?.emailVerified,
+        'uid': user.uid,
+        'displayName': user.displayName,
+        'email': user.email,
+        'photoURL': user.photoURL,
+        'phoneNumber': user.phoneNumber,
+        'isAnonymous': user.isAnonymous,
+        'emailVerified': user.emailVerified,
         'metadata': {
-          'creationTime': user?.metadata.creationTime?.toIso8601String(),
-          'lastSignInTime': user?.metadata.lastSignInTime?.toIso8601String(),
+          'creationTime': user.metadata.creationTime?.toIso8601String(),
+          'lastSignInTime': user.metadata.lastSignInTime?.toIso8601String(),
         },
-        'providerData': user?.providerData.map((userInfo) {
+        'providerData': user.providerData.map((userInfo) {
           return {
             'providerId': userInfo.providerId,
             'uid': userInfo.uid,
@@ -115,10 +120,10 @@ class AuthMethod {
       };
 
       logger.f(userJson);
-
       await _secureStorage.write(key: 'user', value: jsonEncode(userJson));
       return user;
     } catch (e) {
+      logger.e("Error during Google login: ${e.toString()}");
       return null;
     }
   }
@@ -138,11 +143,10 @@ class AuthMethod {
       final String? userJson = await _secureStorage.read(key: 'user');
       if (userJson != null) {
         return jsonDecode(userJson);
-      } else {
-        return null;
       }
+      return null;
     } catch (e) {
-      print(e.toString());
+      logger.e(e.toString());
       return null;
     }
   }

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:moviehub/constant/themes/colors_theme.dart';
 import 'package:moviehub/pages/login/login_page.dart';
 import 'package:moviehub/pages/register/register_controller.dart';
-import 'package:rive/rive.dart';
+import 'package:rive/rive.dart' hide Image;
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({Key? key}) : super(key: key);

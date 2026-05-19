@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:moviehub/constant/themes/colors_theme.dart';
 import 'package:moviehub/pages/forgot_password/forgot_password.dart';
 import 'package:moviehub/pages/register/register_screen.dart';
-import 'package:rive/rive.dart';
+import 'package:rive/rive.dart' hide Image;
 import 'login_controller.dart';
 
 class LoginPage extends StatelessWidget {

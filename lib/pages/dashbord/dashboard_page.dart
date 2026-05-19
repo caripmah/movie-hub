@@ -9,9 +9,6 @@ import 'package:moviehub/controller/dahboard_controller.dart';
 import 'package:moviehub/pages/dashbord/searh_result_page.dart';
 import 'package:moviehub/routes/app_routesname.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-import 'package:carousel_slider/carousel_controller.dart' as carousel_slider;
-
-
 
 class DashboardPage extends StatefulWidget {
   final ScrollController controller;
@@ -26,8 +23,8 @@ class _DashboardPageState extends State<DashboardPage> {
   final TextEditingController searchController = TextEditingController();
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-  // Use aliases in the code
-  var controller = carousel_slider.CarouselController();
+  final CarouselSliderController controller =
+      CarouselSliderController(); // fix disini
 
   @override
   void dispose() {
@@ -46,8 +43,6 @@ class _DashboardPageState extends State<DashboardPage> {
       floatingWidget: FloatingActionButton(
         backgroundColor: ColorConstant.bgColors,
         onPressed: () {
-          // Navigator.push(context,
-          //     MaterialPageRoute(builder: (context) => const ChatbotService()));
           Get.toNamed(AppRoutesname.chatBot);
         },
         child: const Icon(
@@ -193,8 +188,8 @@ class _DashboardPageState extends State<DashboardPage> {
         SizedBox(
           height: 220,
           child: isCarousel
-              ? CarouselSlider (
-                carouselController: controller,
+              ? CarouselSlider(
+                  carouselController: controller,
                   options: CarouselOptions(
                     height: 225.0,
                     autoPlay: true,
@@ -213,8 +208,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 'overview': movie['overview'],
                                 'imageBanner': movie['backdrop_path'],
                                 'releaseDate': movie['release_date'],
-                                'rating':
-                                    6, // Sesuaikan jika rating bukan angka tetap
+                                'rating': 6,
                                 'isMovie': true,
                                 'movieId': movie['id'],
                               },
@@ -244,8 +238,8 @@ class _DashboardPageState extends State<DashboardPage> {
                                     alignment: Alignment.centerLeft,
                                   ),
                                 ),
-                                Container(
-                                  width: isCarousel ? double.infinity : 130,
+                                SizedBox(
+                                  width: double.infinity,
                                   child: Text(
                                     movie['title'],
                                     style: TextStyle(
@@ -285,8 +279,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             'overview': movie['overview'],
                             'imageBanner': movie['backdrop_path'],
                             'releaseDate': movie['release_date'],
-                            'rating':
-                                5, // Sesuaikan jika rating bukan angka tetap
+                            'rating': 5,
                             'isMovie': true,
                             'movieId': movie['id'],
                           },
@@ -315,11 +308,11 @@ class _DashboardPageState extends State<DashboardPage> {
                                 alignment: Alignment.centerLeft,
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               width: 130,
                               child: Text(
                                 movie['title'],
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.white, fontSize: 12),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
