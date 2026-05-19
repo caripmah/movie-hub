@@ -16,20 +16,6 @@ Movie Hub is a modern, AI-powered movie and TV series discovery application buil
 
 🔔 **Push Notifications** – Stay updated with the latest releases and news through Firebase Cloud Messaging.
 
-## 📱 Screenshots
-
-| Get Started | Login Page | Home Screen | Movie Detail |
-| :---: | :---: | :---: | :---: |
-| <img src="assets/images/screenshot_get_started.png" width="200"> | <img src="assets/images/screenshot_loginpage.png" width="200"> | <img src="assets/images/screenshot_home.png" width="200"> | <img src="assets/images/screenshot_detail.png" width="200"> |
-
-## 📥 Download
-
-You can try the app by downloading the latest APK release here:
-
-👉 [Download Movie Hub APK](#) 
-
-*(Note: Replace the link above with your actual release URL. Make sure to allow installation from unknown sources on your device settings.)*
-
 ## 🚀 Tech Stack
 
 - **Frontend:** [Flutter](https://flutter.dev) (Cross-platform mobile development)
