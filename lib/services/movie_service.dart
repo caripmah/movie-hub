@@ -19,16 +19,12 @@ class MovieService {
           '$baseUrl/search/movie?query=$query&page=$page&include_adult=false&language=en-US'),
       headers: {
         'Authorization': 'Bearer $bearer',
-        'Accept': 'application/json',
+        'Accept': 'application/json'
       },
     );
-
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return {
-        'movies': data['results'],
-        'total_pages': data['total_pages'],
-      };
+      return {'movies': data['results'], 'total_pages': data['total_pages']};
     } else {
       throw Exception('Failed to load movies');
     }
@@ -40,16 +36,12 @@ class MovieService {
           'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=$page'),
       headers: {
         'Authorization': 'Bearer $bearer',
-        'accept': 'application/json',
+        'accept': 'application/json'
       },
     );
-
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return {
-        'movies': data['results'],
-        'total_pages': data['total_pages'],
-      };
+      return {'movies': data['results'], 'total_pages': data['total_pages']};
     } else {
       throw Exception('Failed to load now playing movies');
     }
@@ -61,16 +53,12 @@ class MovieService {
           'https://api.themoviedb.org/3/movie/popular?language=en-US&page=$page'),
       headers: {
         'Authorization': 'Bearer $bearer',
-        'accept': 'application/json',
+        'accept': 'application/json'
       },
     );
-
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return {
-        'movies': data['results'],
-        'total_pages': data['total_pages'],
-      };
+      return {'movies': data['results'], 'total_pages': data['total_pages']};
     } else {
       throw Exception('Failed to fetch popular movies');
     }
@@ -82,16 +70,12 @@ class MovieService {
           'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=$page'),
       headers: {
         'Authorization': 'Bearer $bearer',
-        'accept': 'application/json',
+        'accept': 'application/json'
       },
     );
-
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return {
-        'movies': data['results'],
-        'total_pages': data['total_pages'],
-      };
+      return {'movies': data['results'], 'total_pages': data['total_pages']};
     } else {
       throw Exception('Failed to fetch popular movies');
     }
@@ -103,16 +87,12 @@ class MovieService {
           'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=$page'),
       headers: {
         'Authorization': 'Bearer $bearer',
-        'accept': 'application/json',
+        'accept': 'application/json'
       },
     );
-
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return {
-        'movies': data['results'],
-        'total_pages': data['total_pages'],
-      };
+      return {'movies': data['results'], 'total_pages': data['total_pages']};
     } else {
       throw Exception('Failed to fetch popular movies');
     }
@@ -123,10 +103,9 @@ class MovieService {
       Uri.parse('https://api.themoviedb.org/3/movie/$id?language=en-US'),
       headers: {
         'Authorization': 'Bearer $bearer',
-        'accept': 'application/json',
+        'accept': 'application/json'
       },
     );
-
     if (response.statusCode == 200) {
       return MovieDetail.fromJson(json.decode(response.body));
     } else {
@@ -139,10 +118,9 @@ class MovieService {
       Uri.parse('https://api.themoviedb.org/3/tv/$id?language=en-US'),
       headers: {
         'Authorization': 'Bearer $bearer',
-        'accept': 'application/json',
+        'accept': 'application/json'
       },
     );
-
     if (response.statusCode == 200) {
       return TvSeriesDetail.fromJson(json.decode(response.body));
     } else {
@@ -152,28 +130,22 @@ class MovieService {
 
   static Future<String?> getYoutubeTrailerUrl(int movieId) async {
     final String url = '$baseUrl/movie/$movieId/videos';
-
     try {
       final response = await http.get(
         Uri.parse(url),
         headers: {
           'Authorization': 'Bearer $bearer',
-          'Accept': 'application/json',
+          'Accept': 'application/json'
         },
       );
-
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
-
         if (data.containsKey('results')) {
           final videos = data['results'] as List<dynamic>;
-
-          // Cari video yang merupakan trailer YouTube
           final youtubeTrailer = videos.firstWhere(
             (video) => video['site'] == 'YouTube' && video['type'] == 'Trailer',
             orElse: () => null,
           );
-
           if (youtubeTrailer != null) {
             final String videoKey = youtubeTrailer['key'];
             return 'https://www.youtube.com/watch?v=$videoKey';
@@ -183,25 +155,31 @@ class MovieService {
         throw Exception('Failed to load videos');
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
-
-    return null; // Tidak ada trailer YouTube yang ditemukan atau terjadi kesalahan
+    return null;
   }
 
   static Future<void> playYoutubeTrailer(
       BuildContext context, int movieId) async {
     String? youtubeUrl = await getYoutubeTrailerUrl(movieId);
     if (youtubeUrl != null) {
-      if (await canLaunch(youtubeUrl)) {
-        await launch(youtubeUrl);
+      final Uri uri = Uri.parse(youtubeUrl);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Could not launch $youtubeUrl')));
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Could not launch $youtubeUrl')),
+          );
+        }
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Trailer YouTube tidak ditemukan')));
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Trailer YouTube tidak ditemukan')),
+        );
+      }
     }
   }
 }
