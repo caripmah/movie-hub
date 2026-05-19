@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:logger/web.dart';
+import 'package:logger/logger.dart';
 import 'package:moviehub/firebase_options.dart';
 import 'package:moviehub/main_screen.dart';
 import 'package:moviehub/pages/login/login_binding.dart';
@@ -18,7 +18,6 @@ import 'package:moviehub/routes/app_routesname.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   await dotenv.load(fileName: 'assets/.env');
