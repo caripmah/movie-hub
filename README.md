@@ -16,12 +16,18 @@ Movie Hub is a modern, AI-powered movie and TV series discovery application buil
 
 🔔 **Push Notifications** – Stay updated with the latest releases and news through Firebase Cloud Messaging.
 
+## 📱 Screenshots
+
+|                           Get Started                            |                           Login Page                           |                        Home Screen                        |                        Movie Detail                         |
+| :--------------------------------------------------------------: | :------------------------------------------------------------: | :-------------------------------------------------------: | :---------------------------------------------------------: |
+| <img src="assets/images/screenshot_get_started.png" width="200"> | <img src="assets/images/screenshot_loginpage.png" width="200"> | <img src="assets/images/screenshot_home.png" width="200"> | <img src="assets/images/screenshot_detail.png" width="200"> |
+
 ## 🚀 Tech Stack
 
 - **Frontend:** [Flutter](https://flutter.dev) (Cross-platform mobile development)
 - **State Management:** [GetX](https://pub.dev/packages/get)
 - **Backend:** [Firebase](https://firebase.google.com) (Authentication, Firestore, Cloud Messaging)
-- **AI Integration:** [Google Gemini AI](https://deepmind.google/technologies/gemini/) (via `flutter_gemini`)
+- **AI Integration:** [Google Gemini AI](https://deepmind.google/technologies/gemini/) (via \`flutter_gemini\`)
 - **API:** [TMDB API](https://www.themoviedb.org/documentation/api) (The Movie Database)
 - **Networking:** [Dio](https://pub.dev/packages/dio) & [HTTP](https://pub.dev/packages/http)
 - **Animations:** [Rive](https://rive.app) & [Flutter Animate](https://pub.dev/packages/flutter_animate)
@@ -35,23 +41,30 @@ Movie Hub is a modern, AI-powered movie and TV series discovery application buil
 
 ## 🛠️ Installation (For Developers)
 
-```bash
+\`\`\`bash
+
 # Clone the repository
+
 git clone https://github.com/your-username/movie-hub.git
 
 # Navigate into the project
+
 cd movie-hub
 
 # Install dependencies
+
 flutter pub get
 
 # Setup Environment Variables
+
 # Create a .env file and add your TMDB bearer token and other keys
+
 # bearer=YOUR_TMDB_BEARER_TOKEN
 
 # Run the app
+
 flutter run
-```
+\`\`\`
 
 ## 📖 Roadmap
 
